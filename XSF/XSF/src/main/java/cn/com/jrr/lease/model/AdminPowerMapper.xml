@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.jrr.lease.model.AdminPowerMapper">
+<!--  <insert id="add" parameterType="cn.com.jrr.lease.model.AdminPower" >
+	insert into a_power(a_name) values(#{a_name},#{a_psw},#{a_code},#{a_image},#{a_tele},#{a_power})
+</insert> -->
+ <select id="query" resultType="cn.com.jrr.lease.model.AdminPower">
+	SELECT * FROM a_power
+</select> 
+
+</mapper>

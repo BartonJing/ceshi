@@ -1,0 +1,111 @@
+@charset "utf-8";
+
+a:link {background-color:#B2FF99;}
+a:visited {background-color:#FFFF85;}
+a:hover {background-color:#FF704D;}
+a:active {background-color:#FF704D;} 
+.form_main{
+	width: 90%;
+	height: 100%;
+	float:left;
+}
+
+ .form_main .myform {
+	font-size: 16px;
+	margin-top:30px;
+	text-align:center;
+	width:850px;
+}
+ .form_main .myform_1 {
+	font-size: 16px;
+	margin-top:10px;
+	text-align:center;
+	width:850px;
+}
+
+ .form_main .myform .myinput {
+	width: 400px;
+	height: 26px;
+	text-align: left;
+}
+
+ .form_main .myform .mylabel {
+ 	width:400px;
+	font-size: 18px;
+	line-height: 26px;
+	float: left;
+	text-align: right;
+}
+.form_main .myform .mydate{
+	width: 140px;
+	height: 26px;
+	text-align: left;
+}
+.form_main .myform .mylabel_1{
+	font-size: 18px;
+	line-height: 26px;
+	color:#aaa;
+}
+.form_main .myform .button{
+	width:150px;
+	height: 30px;
+	background: #0f0;
+	border-radius:10px;
+	margin-left: 400px;
+}
+.form_main .myform .mytextarea{
+	width: 400px;
+	text-align: left;
+	font-size: 18px;
+	color:#505050;
+}
+
+
+
+
+.myquery{
+	width:100%;
+}
+.myquery table{
+	width:90%;
+	margin:0 auto;
+} 
+.myquery table,th,tr,td{
+	border:2px solid #aaa;
+	border-collapse: collapse;
+	height: 35px;
+} 
+.myquery .thead{
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+}
+.myquery .body{
+	font-size: 18px;
+	height: 40px;
+} 
+
+.showmessage{
+	width:100%;
+}
+.showmessage table{
+	width:65%;
+	margin:0 auto;
+}
+.showmessage table,th,tr,td{
+	border:1px solid #aaa;
+	border-collapse: collapse;
+	height: 40px;
+	font-size: 18px;
+} 
+
+.showmessage .td_label{
+	text-align: right;
+	width:200px;
+	color:#399;
+}
+.showmessage .td_body{
+	text-align: left;
+	width:300px;
+	color:#09c;
+}

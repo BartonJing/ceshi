@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+<!-- 配置要扫描的包 -->
+	<context:component-scan base-package="cn.com.jrr" ></context:component-scan>
+	<!-- 加载外部资源文件 -->
+	<context:property-placeholder location="classpath:db.properties"/>
+	<!-- 配置数据源 -->
+	<bean id="datasourse" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${c3p0.driver}"></property>
+		<property name="jdbcUrl" value="${c3p0.url}"></property>
+		<property name="user" value="${c3p0.username}"></property>
+		<property name="password" value="${c3p0.password}"></property>
+		<property name="maxPoolSize" value="${c3p0.MaxPoolSize}"></property>
+		<property name="minPoolSize" value="${c3p0.MinPoolSize}"></property>
+		
+	</bean>
+	<!-- 配置 sqlSessionFactory-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="datasourse"></property>
+		<property name="configLocation" value="classpath:mybatis_config.xml"></property>
+		<property name="mapperLocations" value="classpath:cn/com/jrr/lease/**/*.xml"></property> 
+	</bean>
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="datasourse"></property>
+	</bean>
+	 <!--  -->
+	<!--<aop:config proxy-target-class="false">
+	
+	</aop:config> -->
+	<tx:annotation-driven transaction-manager="transactionManager" mode="proxy"/>
+</beans>

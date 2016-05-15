@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.jrr.lease.model.ProductImageMapper">
+<insert id="add" parameterType="cn.com.jrr.lease.model.ProductImage" >
+	insert into a_image_product(i_product,i_image) 
+	values(#{i_product},#{i_image})
+</insert>
+
+<select id="queryAll" resultType="cn.com.jrr.lease.model.ProductImage" parameterType="int">
+	SELECT * FROM a_image_product where i_product=#{i_product}
+</select>
+ <select id="queryPage" resultType="cn.com.jrr.lease.model.ProductImage" parameterType="cn.com.jrr.lease.model.PageImageModel">
+	SELECT * FROM a_image_product where i_product=#{i_product} limit #{currentItem},#{pageSize}
+</select>
+ <select id="get" resultType="cn.com.jrr.lease.model.ProductImage" parameterType="int">
+	SELECT * FROM a_image_product where i_id=#{i_id}
+</select>
+
+<update id="save" parameterType="cn.com.jrr.lease.model.ProductImage">
+	UPDATE a_image_product SET
+	i_image=#{i_image}
+	WHERE i_id=#{i_id}
+</update>
+<delete id="delete" parameterType="int" >
+	delete from a_image_product where i_id=#{code}
+</delete>
+
+
+</mapper>

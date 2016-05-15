@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.jrr.lease.model.UserMapper">
+<insert id="add" parameterType="cn.com.jrr.lease.model.User" >
+	insert into a_user(u_code,u_password,u_tele,u_time,u_image) 
+	values(#{u_code},#{u_password},#{u_tele},#{u_time},#{u_image})
+</insert>
+
+<select id="queryAll" resultType="cn.com.jrr.lease.model.User">
+	SELECT * FROM a_user where u_state=1
+</select>
+ <select id="queryPage" resultType="cn.com.jrr.lease.model.User" parameterType="cn.com.jrr.lease.model.PageModel" resultMap="userMap">
+	SELECT * FROM a_user where u_state=1 limit #{currentItem},#{pageSize}
+</select>
+ <select id="get" resultType="cn.com.jrr.lease.model.User" parameterType="int">
+	SELECT * FROM a_user where u_id=#{u_id}
+</select>
+
+<update id="save" parameterType="cn.com.jrr.lease.model.User">
+	UPDATE a_user SET
+	u_code=#{u_code},u_password=#{u_password},
+	u_tele=#{u_tele},u_time=#{u_time},u_image=#{u_image}
+	WHERE u_id=#{u_id}
+</update>
+<update id="delete" parameterType="int" >
+	update a_user set u_state=0 where u_id=#{u_id}
+</update>
+
+
+<select id="getaddress" resultType="cn.com.jrr.lease.model.UserAddress" parameterType="int">
+	select * from a_address where a_user=#{code}
+</select>
+<resultMap type="cn.com.jrr.lease.model.User" id="userMap">
+	<id property="u_id" column="u_id"/>
+	<result property="u_code" column="u_code"/>
+	<result property="u_password" column="u_password"/>
+	<result property="u_tele" column="u_tele"/>
+	<result property="u_time" column="u_time"/>
+	<result property="u_image" column="u_image"/>
+	<collection property="userAddresss" ofType="cn.com.jrr.lease.model.UserAddress" select="getaddress" column="u_id"></collection>
+	
+</resultMap>
+
+
+</mapper>

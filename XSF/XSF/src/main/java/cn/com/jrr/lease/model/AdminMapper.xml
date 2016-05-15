@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.jrr.lease.model.AdminMapper">
+<insert id="add" parameterType="cn.com.jrr.lease.model.Admin" >
+	insert into a_admin(a_name,a_psw,a_code,a_image,a_tele,a_power) values(#{a_name},#{a_psw},#{a_code},#{a_image},#{a_tele},#{a_power})
+</insert>
+ <select id="login" resultType="cn.com.jrr.lease.model.Admin" parameterType="cn.com.jrr.lease.model.Admin">
+	SELECT * FROM a_admin where a_code=#{a_code} and a_psw=#{a_psw}
+</select>
+<select id="queryAll" resultType="cn.com.jrr.lease.model.Admin" parameterType="cn.com.jrr.lease.model.PageModel">
+	SELECT * FROM a_admin
+</select>
+ <select id="queryPage" resultType="cn.com.jrr.lease.model.Admin" parameterType="cn.com.jrr.lease.model.PageModel">
+	SELECT * FROM a_admin order by a_id asc limit #{currentItem},#{pageSize}
+</select>
+
+
+<select id="get" resultType="cn.com.jrr.lease.model.Admin" parameterType="int">
+	SELECT * FROM a_admin where a_id=#{code}
+</select>
+
+<update id="save" parameterType="cn.com.jrr.lease.model.Admin">
+	UPDATE a_admin SET a_name=#{a_name},a_code=#{a_code},a_psw=#{a_psw},a_tele=#{a_tele},a_power=#{a_power},a_image=#{a_image} WHERE a_id=#{a_id}
+</update>
+<!--<delete id="delete" parameterType="int">
+	DELETE FROM student WHERE s_id=#{id}
+</delete> -->
+
+</mapper>

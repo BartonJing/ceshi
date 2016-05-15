@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+
+	<package name="default" namespace="/" extends="struts-default">
+
+		<action name="index">
+			<result>/index.jsp</result>
+		</action>
+	</package>
+	<!-- 管理员配置 -->
+	<package name="admin" namespace="/admin" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="crud">
+				<interceptor-ref name="paramsPrepareParamsStack">
+					<param name="prepare.alwaysinvokePrepare">false</param>
+				</interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="defaultStack">
+					<!-- 配置文件上传的参数 -->
+					<!-- 单个文件的最大值 -->
+					<param name="fileUpload.maximumSize">1024000</param>
+					<!-- 允许的类型 -->
+					<param name="fileUpload.allowedTypes">image/png,image/jpeg</param>
+					<!-- 允许文件扩展名 -->
+					<param name="fileUpload.allowedExtensions">png,jpeg,jpg</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		<action name="login" class="adminAction" method="login">
+			<interceptor-ref name="crud"></interceptor-ref>
+			<result name="loginSuccess">/WEB-INF/backview/admin.jsp</result>
+			<result name="loginFail">/index.jsp</result>
+		</action>
+		<action name="index" class="adminAction">
+			<result>/WEB-INF/backview/add_admin.jsp</result>
+		</action>
+		<action name="add" class="adminAction" method="add">
+			<result name="addSuccess">/WEB-INF/backview/add_admin.jsp</result>
+		</action>
+		<action name="query" class="adminAction" method="query">
+			<result name="querySuccess">/WEB-INF/backview/query_admin.jsp</result>
+		</action>
+		<action name="editor" class="adminAction" method="editor">
+			<interceptor-ref name="crud"></interceptor-ref>
+			<result name="editorSuccess">/WEB-INF/backview/editor_admin.jsp</result>
+		</action>
+		<action name="save" class="adminAction" method="save">
+			<result name="saveSuccess" type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/admin</param>
+			</result>
+		</action>
+		<!--<action name="delete" class="studentAction" method="delete"> <interceptor-ref 
+			name="crud"></interceptor-ref> <result name="deleteSuccess" type="redirectAction"> 
+			<param name="actionName">query</param> <param name="namespace">/student</param> 
+			</result> </action> -->
+	</package>
+	
+	<!-- 产品配置 -->
+	<package name="product" namespace="/product" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="crud">
+				<interceptor-ref name="paramsPrepareParamsStack">
+					<param name="prepare.alwaysinvokePrepare">false</param>
+				</interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="defaultStack">
+					<!-- 配置文件上传的参数 -->
+					<!-- 单个文件的最大值 -->
+					<param name="fileUpload.maximumSize">1024000</param>
+					<!-- 允许的类型 -->
+					<param name="fileUpload.allowedTypes">image/png,image/jpeg</param>
+					<!-- 允许文件扩展名 -->
+					<param name="fileUpload.allowedExtensions">png,jpeg,jpg</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		<action name="index" class="productAction">
+			<result>/WEB-INF/backview/add_product.jsp</result>
+		</action>
+		
+		 <action name="add" class="productAction" method="addNew">
+			<result name="addSuccess">/WEB-INF/backview/add_product.jsp</result>
+		</action>
+		<action name="query" class="productAction" method="query">
+			<result name="querySuccess">/WEB-INF/backview/query_product.jsp</result>
+		</action>
+		<!-- 打开已有产品库存添加 -->
+		<action name="openold" class="productAction" method="openOld">
+		    <interceptor-ref name="crud"></interceptor-ref>
+			<result name="openSuccess">/WEB-INF/backview/add_oldproduct.jsp</result>
+		</action>
+		<!-- 已有产品库存添加 -->
+		<action name="addold" class="productAction" method="addOld">
+			<interceptor-ref name="crud"></interceptor-ref>
+			<result name="addSuccess" type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/product</param>
+			</result>
+		</action>
+		<!-- 推送产品 -->
+		<action name="push" class="productAction" method="push">
+			<interceptor-ref name="crud"></interceptor-ref>
+			<result name="pushSuccess" type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/product</param>
+			</result>
+		</action>
+		<!-- 查看产品详情页面-->
+		<action name="editor" class="productAction" method="editorAll">
+		    <interceptor-ref name="crud"></interceptor-ref>
+			<result name="editorSuccess">/WEB-INF/backview/editor_product.jsp</result>
+		</action>
+		
+		<!-- 产品价格回显-->
+		<action name="pricemana" class="productAction" method="showPrice">
+		    <interceptor-ref name="crud"></interceptor-ref>
+			<result name="editorSuccess">/WEB-INF/backview/save_productprice.jsp</result>
+		</action>
+		<!-- 产品价格保存-->
+		<action name="saveprice" class="productAction" method="savePrice">
+		    <interceptor-ref name="crud"></interceptor-ref>
+			<result name="saveSuccess">/WEB-INF/backview/save_productprice.jsp</result>
+		</action>
+		<!-- 打开添加产品图片界面 -->
+		<action name="openimage" class="productAction" method="openImage">
+		    <interceptor-ref name="crud"></interceptor-ref>
+			<result name="imageSuccess">/WEB-INF/backview/add_productimage.jsp</result>
+		</action>
+		<!-- 添加产品图片 -->
+		<action name="addimage" class="productAction" method="addImage">
+		    <interceptor-ref name="crud"></interceptor-ref>
+			<result name="addSuccess">/WEB-INF/backview/add_productimage.jsp</result>
+		</action>
+		<!-- 打开产品图片管理界面 -->
+		<action name="openimageMana" class="productAction" method="openImageMana">
+		    <interceptor-ref name="crud"></interceptor-ref>
+			<result name="imageSuccess">/WEB-INF/backview/editor_productimage.jsp</result>
+		</action>
+		<!-- 保存产品图片-->
+		<action name="editorimageMana" class="productAction" method="editorImageMana">
+			<interceptor-ref name="crud"></interceptor-ref>
+			<result name="imageSuccess" type="redirectAction">
+				<param name="actionName">openimageMana</param>
+				<param name="namespace">/product</param>
+			</result>
+		</action>
+		<!-- 删除产品图片 -->
+		<action name="deleteimage" class="productAction" method="deleteImageMana">
+			<interceptor-ref name="crud"></interceptor-ref>
+			<result name="imageSuccess" type="redirectAction">
+				<param name="actionName">openimageMana</param>
+				<param name="namespace">/product</param>
+			</result>
+		</action>
+	</package>
+	
+	<!-- 轮播图片配置 -->
+	<package name="mainimage" namespace="/mainimage" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="crud">
+				<interceptor-ref name="paramsPrepareParamsStack">
+					<param name="prepare.alwaysinvokePrepare">false</param>
+				</interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="defaultStack">
+					<!-- 配置文件上传的参数 -->
+					<!-- 单个文件的最大值 -->
+					<param name="fileUpload.maximumSize">1024000</param>
+					<!-- 允许的类型 -->
+					<param name="fileUpload.allowedTypes">image/png,image/jpeg</param>
+					<!-- 允许文件扩展名 -->
+					<param name="fileUpload.allowedExtensions">png,jpeg,jpg</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		<action name="index" class="mainImageAction">
+			<result>/WEB-INF/backview/add_mainimage.jsp</result>
+		</action>
+		<action name="add" class="mainImageAction" method="add">
+			<result name="addSuccess">/WEB-INF/backview/add_mainimage.jsp</result>
+		</action>
+		<action name="query" class="mainImageAction" method="query">
+			<result name="querySuccess">/WEB-INF/backview/editor_mainimage.jsp</result>
+		</action>
+		<action name="save" class="mainImageAction" method="save">
+		 	<interceptor-ref name="crud"></interceptor-ref>
+			<result name="saveSuccess" type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/mainimage</param>
+			</result>
+		</action>
+		<!-- 删除图片 -->
+		<action name="delete" class="mainImageAction" method="delete">
+			<interceptor-ref name="crud"></interceptor-ref>
+			<result name="deleteSuccess" type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/mainimage</param>
+			</result>
+		</action>
+	</package>
+	<!-- 优惠券配置 -->
+	<package name="youhui" namespace="/youhui" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="crud">
+				<interceptor-ref name="paramsPrepareParamsStack">
+					<param name="prepare.alwaysinvokePrepare">false</param>
+				</interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="defaultStack">
+					<!-- 配置文件上传的参数 -->
+					<!-- 单个文件的最大值 -->
+					<param name="fileUpload.maximumSize">1024000</param>
+					<!-- 允许的类型 -->
+					<param name="fileUpload.allowedTypes">image/png,image/jpeg</param>
+					<!-- 允许文件扩展名 -->
+					<param name="fileUpload.allowedExtensions">png,jpeg,jpg</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		<action name="index" class="youHuiAction">
+			<result>/WEB-INF/backview/add_youhui.jsp</result>
+		</action>
+		<action name="add" class="youHuiAction" method="add">
+			<result name="addSuccess">/WEB-INF/backview/add_youhui.jsp</result>
+		</action>
+		<action name="query" class="youHuiAction" method="query">
+			<result name="querySuccess">/WEB-INF/backview/query_youhui.jsp</result>
+		</action>
+		<action name="editor" class="youHuiAction" method="editor">
+			<interceptor-ref name="crud"></interceptor-ref>
+			<result name="editorSuccess">/WEB-INF/backview/editor_youhui.jsp</result>
+		</action>
+		<action name="save" class="youHuiAction" method="save">
+		 	<interceptor-ref name="crud"></interceptor-ref>
+			<result name="saveSuccess" type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/youhui</param>
+			</result>
+		</action>
+		<!-- 删除图片 -->
+		<action name="delete" class="youHuiAction" method="delete">
+			<interceptor-ref name="crud"></interceptor-ref>
+			<result name="deleteSuccess" type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/youhui</param>
+			</result>
+		</action>
+	</package>
+	<!-- 用户配置 -->
+	<package name="user" namespace="/user" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="crud">
+				<interceptor-ref name="paramsPrepareParamsStack">
+					<param name="prepare.alwaysinvokePrepare">false</param>
+				</interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="defaultStack">
+					<!-- 配置文件上传的参数 -->
+					<!-- 单个文件的最大值 -->
+					<param name="fileUpload.maximumSize">1024000</param>
+					<!-- 允许的类型 -->
+					<param name="fileUpload.allowedTypes">image/png,image/jpeg</param>
+					<!-- 允许文件扩展名 -->
+					<param name="fileUpload.allowedExtensions">png,jpeg,jpg</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		<!-- 注册 -->
+		<action name="add" class="userAction" method="add">
+			<result name="addSuccess">/WEB-INF/backview/add_youhui.jsp</result>
+		</action>
+		<action name="query" class="userAction" method="query">
+			<result name="querySuccess">/WEB-INF/backview/query_user.jsp</result>
+		</action>
+		
+	</package>
+	<!-- 用户地址配置 -->
+	<package name="user" namespace="/user" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="crud">
+				<interceptor-ref name="paramsPrepareParamsStack">
+					<param name="prepare.alwaysinvokePrepare">false</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 注册 -->
+		<action name="add" class="userAction" method="add">
+			<result name="addSuccess">/WEB-INF/backview/add_youhui.jsp</result>
+		</action>
+		<action name="query" class="userAddressAction" method="query">
+			<result name="querySuccess">/WEB-INF/backview/query_user.jsp</result>
+		</action>
+		
+	</package>
+	
+	
+	
+	
+	<!-- Android端配置 -->
+	<package name="android" namespace="/android" extends="struts-default">
+		<interceptors>
+			<interceptor-stack name="crud">
+				<interceptor-ref name="paramsPrepareParamsStack">
+					<param name="prepare.alwaysinvokePrepare">false</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<action name="query" class="frontProduct" method="query">
+			
+		</action>
+		
+	</package>
+	
+</struts>

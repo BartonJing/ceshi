@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.jrr.lease.model.userAddressMapper">
+<insert id="add" parameterType="cn.com.jrr.lease.model.UserAddress" >
+	insert into a_address(a_address,a_user) 
+	values(#{a_address},#{a_user}
+</insert>
+
+<select id="queryAll" resultType="cn.com.jrr.lease.model.UserAddress" parameterType="int">
+	SELECT * FROM a_address where a_user=#{code}
+</select>
+ <select id="get" resultType="cn.com.jrr.lease.model.UserAddress" parameterType="int">
+	SELECT * FROM a_address where a_id=#{a_id}
+</select>
+
+<update id="save" parameterType="cn.com.jrr.lease.model.UserAddress">
+	UPDATE a_address SET
+	a_address=#{a_address},a_user=#{a_user}
+	WHERE y_id=#{y_id}
+</update>
+<delete id="delete" parameterType="int" >
+	delete from a_address where a_id=#{code}
+</delete>
+
+
+</mapper>

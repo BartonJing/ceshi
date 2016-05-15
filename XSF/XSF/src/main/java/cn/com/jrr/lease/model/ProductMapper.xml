@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.jrr.lease.model.ProductMapper">
+<insert id="add" parameterType="cn.com.jrr.lease.model.Product" >
+	insert into a_product(p_code,p_name,p_price1,p_time1,p_time2,p_type,p_discript,p_number1,p_number2) 
+	values(#{p_code},#{p_name},#{p_price1},#{p_time1},#{p_time2},#{p_type},#{p_discript},#{p_number1},#{p_number2})
+</insert>
+
+<select id="queryAll" resultType="cn.com.jrr.lease.model.Product" parameterType="cn.com.jrr.lease.model.PageModel">
+	SELECT * FROM a_product
+</select>
+ <select id="queryPage" resultType="cn.com.jrr.lease.model.Product" parameterType="cn.com.jrr.lease.model.PageModel">
+	SELECT * FROM a_product order by p_id desc limit #{currentItem},#{pageSize}
+</select>
+
+
+<select id="get" resultType="cn.com.jrr.lease.model.Product" parameterType="int">
+	SELECT * FROM a_product where p_id=#{code}
+</select>
+
+<update id="save" parameterType="cn.com.jrr.lease.model.Product">
+	UPDATE a_product SET
+	p_code=#{p_code},p_name=#{p_name},p_price1=#{p_price1},
+	p_price2=#{p_price2},p_price3=#{p_price3},p_number1=#{p_number1},
+	p_number2=#{p_number2},p_time1=#{p_time1},p_time2=#{p_time2},
+	p_type=#{p_type},p_discript=#{p_discript},p_state=#{p_state}
+	WHERE p_id=#{p_id}
+</update>
+<update id="savestate" parameterType="cn.com.jrr.lease.model.Product">
+	UPDATE a_product SET
+	p_state=#{p_state}
+	WHERE p_id=#{p_id}
+</update>
+<update id="saveprice" parameterType="cn.com.jrr.lease.model.Product">
+	UPDATE a_product SET
+	p_price2=#{p_price2},p_price3=#{p_price3}
+	WHERE p_id=#{p_id}
+</update>
+
+
+</mapper>

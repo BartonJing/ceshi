@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.jrr.lease.model.YouHuiMapper">
+<insert id="add" parameterType="cn.com.jrr.lease.model.YouHui" >
+	insert into a_youhui(y_discript,y_price,y_number1,y_number2,y_image,y_createtime,y_starttime,y_endtime,y_name) 
+	values(#{y_discript},#{y_price},#{y_number1},#{y_number2},
+	#{y_image},#{y_createtime},#{y_starttime},#{y_endtime},#{y_name})
+</insert>
+
+<select id="queryAll" resultType="cn.com.jrr.lease.model.YouHui">
+	SELECT * FROM a_youhui where y_state='正常'
+</select>
+ <select id="queryPage" resultType="cn.com.jrr.lease.model.YouHui" parameterType="cn.com.jrr.lease.model.PageModel">
+	SELECT * FROM a_youhui where y_state='正常' order by y_createtime desc limit #{currentItem},#{pageSize}
+</select>
+ <select id="get" resultType="cn.com.jrr.lease.model.YouHui" parameterType="int">
+	SELECT * FROM a_youhui where y_id=#{y_id}
+</select>
+
+<update id="save" parameterType="cn.com.jrr.lease.model.YouHui">
+	UPDATE a_youhui SET
+	y_discript=#{y_discript},y_price=#{y_price},
+	y_number1=#{y_number1},y_number2=#{y_number2},
+	y_image=#{y_image},y_createtime=#{y_createtime},
+	y_starttime=#{y_starttime},y_endtime=#{y_endtime}
+	WHERE y_id=#{y_id}
+</update>
+<update id="delete" parameterType="int" >
+	update a_youhui set y_state='注销' where y_id=#{y_id}
+</update>
+
+
+</mapper>
